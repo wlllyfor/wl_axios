@@ -71,6 +71,12 @@ router.get('/error/timeout', function(req, res) {
   }, 1500)
 })
 
+router.post('/extend/post', function(req, res) {
+  res.json({
+    msg: `hello world`
+  })
+})
+
 app.use(router)
 
 const port = process.env.PORT || 5000
