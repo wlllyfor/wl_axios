@@ -1,3 +1,5 @@
+import InterceptorManager from '../src/core/interceptor'
+
 export type Method = 'get' | 'GET'
   | 'delete' | 'Delete'
   | 'head' | 'HEAD'
@@ -54,7 +56,33 @@ export interface Axios {
   patch<T = any>(url: string, data?: any, config?: AxiosRequestConfig): AxiosPromise<T>
 }
 
+
+export interface Interceptors {
+  request: InterceptorManager<AxiosRequestConfig>
+  response: InterceptorManager<AxiosResponse>
+}
+
 export interface AxiosInstance extends Axios {
+  interceptors: Interceptors;
   <T = any>(config: AxiosRequestConfig): AxiosPromise<T>
   <T = any>(url: string, config?: AxiosRequestConfig): AxiosPromise<T>
+}
+
+export interface AxiosInterceptorManager<T> {
+  use(resolved: ResolvedFn<T>, rejected?: RejectedFn): number
+
+  eject(id: number): void
+}
+
+export interface ResolvedFn<T=any> {
+  (val: T): T | Promise<T>
+}
+
+export interface RejectedFn {
+  (error: any): any
+}
+
+export interface PromiseChain {
+  resolved: ResolvedFn | ((config: AxiosRequestConfig) => AxiosPromise)
+  rejected?: RejectedFn
 }

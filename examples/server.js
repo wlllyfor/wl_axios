@@ -77,6 +77,10 @@ router.post('/extend/post', function(req, res) {
   })
 })
 
+router.get('/interceptor/get', function(req, res) {
+  res.json(req.body)
+})
+
 app.use(router)
 
 const port = process.env.PORT || 5000
